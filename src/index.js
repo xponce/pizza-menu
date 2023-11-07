@@ -59,7 +59,7 @@ function App() {
 }
 
 function Header() {
-    const style = {color: 'red', fontSize: '48px', textTransform: 'uppercase'};
+    const style = { color: 'red', fontSize: '48px', textTransform: 'uppercase' };
     return (
         <header className='header'>
             <h1 style={style}>Fast React Pizza Co.</h1>
@@ -98,6 +98,8 @@ function Menu() {
 function Pizza(props) {
     console.log(props);
 
+    if (props.pizzaObj.soldOut) return null;
+
     return (
         <li className='pizza'>
             <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
@@ -120,11 +122,28 @@ function Footer() {
     // if(hour >= openHour && hour <= closeHour) alert("We're currently open!");
     // else alert("Sorry we're close")
 
-        return <footer className='footer'>{new Date().toLocaleTimeString()}. We're currently open</footer>    
+    return (
+        <footer className='footer'>
+            {isOpen ? (
+                <Order closeHour={closeHour} />
+            ) : (
+                <p>We're happy to welcom you between {openHour}:00 and {closeHour}:00.</p>
+            )}
+        </footer>
+    );
     // return React.createElement('footer', null, "We're currently open!");
 };
 
-
+function Order(props) {
+    return (
+        <div className='order'>
+            <p>
+                We're open until {props.closeHour}:00. Come visit us or order online.
+            </p>
+            <button className='btn'>Order</button>
+        </div>
+    );
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render
